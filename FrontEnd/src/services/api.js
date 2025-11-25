@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // Base URL untuk API
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'
 
 // Membuat instance axios dengan konfigurasi default
 const api = axios.create({
@@ -9,6 +9,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true // Enable sending cookies
 })
 
 // Interceptor untuk handling token (jika diperlukan)
@@ -38,9 +39,8 @@ api.interceptors.response.use(
       
       // Handle unauthorized error (401)
       if (error.response.status === 401) {
-        // Logout user atau refresh token
-        localStorage.removeItem('token')
         // Redirect to login if needed
+        window.location.href = '/login'
       }
       
       return Promise.reject(error.response.data)
