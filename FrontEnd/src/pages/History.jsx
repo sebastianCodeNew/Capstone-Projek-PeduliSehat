@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import config from "../config";
 
 function History({ isLoggedIn }) {
   const [history, setHistory] = useState([]);
@@ -17,7 +18,8 @@ function History({ isLoggedIn }) {
     const fetchHistory = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8081/detection-history"
+          `${config.backendUrl}/detection-history`,
+          { withCredentials: true }
         );
         if (response.data.Status === "Success") {
           setHistory(response.data.history);

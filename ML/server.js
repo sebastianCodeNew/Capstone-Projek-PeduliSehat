@@ -5,13 +5,19 @@ const fs = require("fs").promises;
 const path = require("path");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Dapatkan path absolut ke Python di lingkungan virtual
 const pythonPath = path.join(__dirname, "venv", "Scripts", "python.exe");
 
 // Aktifkan CORS dan parsing JSON
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    process.env.FRONTEND_URL || "https://your-frontend.vercel.app"
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 // Sajikan file statis dari direktori saat ini
@@ -68,7 +74,7 @@ app.post("/predict", async (req, res) => {
         // Hanya coba hapus jika file ada
         fs.access("temp_input.json")
           .then(() => fs.unlink("temp_input.json"))
-          .catch(() => {}); // Abaikan jika file tidak ada
+          .catch(() => { }); // Abaikan jika file tidak ada
 
         if (code !== 0) {
           console.error("Proses Python keluar dengan kode:", code);

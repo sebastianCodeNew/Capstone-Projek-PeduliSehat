@@ -3,6 +3,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
 import axios from "axios";
+import config from "./config";
 
 const Home = lazy(() => import("./pages/Home"));
 const DiseaseDetection = lazy(() => import("./pages/DiseaseDetection"));
@@ -19,7 +20,7 @@ function App() {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const res = await axios.get("http://localhost:8081/is-logged-in", {
+        const res = await axios.get(`${config.backendUrl}/is-logged-in`, {
           withCredentials: true
         });
         if (res.data.Status === "Success") {

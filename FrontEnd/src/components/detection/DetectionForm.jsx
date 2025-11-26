@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 import Select from "react-select";
 import axios from "axios";
+import config from "../../config";
 
 const SymptomTag = ({ text, onRemove }) => {
   return (
@@ -76,7 +77,7 @@ const DetectionForm = ({ isLoggedIn }) => {
 
   useEffect(() => {
     // Fetch symptoms from ML server when component mounts
-    fetch("http://localhost:3000/symptoms")
+    fetch(`${config.mlServerUrl}/symptoms`)
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
@@ -108,9 +109,11 @@ const DetectionForm = ({ isLoggedIn }) => {
         return acc;
       }, {});
 
-      await axios.post("http://localhost:8081/save-detection", {
+      await axios.post(`${config.backendUrl}/save-detection`, {
         symptoms: symptomsObject,
         detection_result: prediction,
+      }, {
+        withCredentials: true
       });
     } catch (error) {
       console.error("Error saving to history:", error);
@@ -128,7 +131,7 @@ const DetectionForm = ({ isLoggedIn }) => {
     setError(null);
 
     // Send prediction request to ML server
-    fetch("http://localhost:3000/predict", {
+    fetch(`${config.mlServerUrl}/predict`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

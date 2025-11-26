@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import config from "../config";
 
 function Login({ setIsLoggedIn }) {
   const [values, setValues] = useState({
@@ -20,7 +21,7 @@ function Login({ setIsLoggedIn }) {
     setErrors({ email: "", password: "" }); // Clear previous errors
 
     axios
-      .post("http://localhost:8081/login", values)
+      .post(`${config.backendUrl}/login`, values)
       .then((res) => {
         if (res.data.Status === "Success") {
           setIsLoggedIn(true);
@@ -73,9 +74,8 @@ function Login({ setIsLoggedIn }) {
               name="email"
               value={values.email}
               onChange={handleInputChange("email")}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 transition-all duration-200 hover:border-green-300 ${
-                errors.email ? "border-red-500" : "border-gray-200"
-              }`}
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 transition-all duration-200 hover:border-green-300 ${errors.email ? "border-red-500" : "border-gray-200"
+                }`}
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -96,9 +96,8 @@ function Login({ setIsLoggedIn }) {
                 name="password"
                 value={values.password}
                 onChange={handleInputChange("password")}
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 transition-all duration-200 hover:border-green-300 ${
-                  errors.password ? "border-red-500" : "border-gray-200"
-                }`}
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 transition-all duration-200 hover:border-green-300 ${errors.password ? "border-red-500" : "border-gray-200"
+                  }`}
               />
               <button
                 type="button"

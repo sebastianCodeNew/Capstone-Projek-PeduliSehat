@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { FaHeartbeat, FaBars, FaTimes } from "react-icons/fa";
 import axios from "axios";
+import config from "../config";
 
 const Header = ({ isLoggedIn, setIsLoggedIn }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,7 +19,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
     // Fetch user name if logged in
     if (isLoggedIn) {
       axios
-        .get("http://localhost:8081/is-logged-in", { withCredentials: true })
+        .get(`${config.backendUrl}/is-logged-in`, { withCredentials: true })
         .then((res) => {
           if (res.data.Status === "Success") {
             setUserName(res.data.name); // Set the user's name from the server response
@@ -44,7 +45,7 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
 
   const handleLogout = () => {
     axios
-      .get("http://localhost:8081/logout", { withCredentials: true })
+      .get(`${config.backendUrl}/logout`, { withCredentials: true })
       .then((res) => {
         if (res.data.Status === "Success") {
           setIsLoggedIn(false);
@@ -56,9 +57,8 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-md py-2" : "bg-transparent py-4"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-white shadow-md py-2" : "bg-transparent py-4"
+        }`}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex justify-between items-center">
@@ -90,10 +90,9 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
                   key={idx}
                   to={path}
                   className={({ isActive }) =>
-                    `font-medium transition-colors ${
-                      isActive
-                        ? "text-primary"
-                        : isScrolled
+                    `font-medium transition-colors ${isActive
+                      ? "text-primary"
+                      : isScrolled
                         ? "text-gray-700 hover:text-primary"
                         : "text-gray-800 hover:text-primary"
                     }`
@@ -150,9 +149,8 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden bg-white shadow-md overflow-hidden transition-all duration-300 ${
-          isMenuOpen ? "max-h-screen py-4" : "max-h-0"
-        }`}
+        className={`md:hidden bg-white shadow-md overflow-hidden transition-all duration-300 ${isMenuOpen ? "max-h-screen py-4" : "max-h-0"
+          }`}
       >
         <div className="container mx-auto px-4">
           <nav className="flex flex-col space-y-4 mb-6">
@@ -163,10 +161,9 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
                   to={path}
                   onClick={() => setIsMenuOpen(false)}
                   className={({ isActive }) =>
-                    `font-medium py-2 transition-colors ${
-                      isActive
-                        ? "text-primary"
-                        : "text-gray-700 hover:text-primary"
+                    `font-medium py-2 transition-colors ${isActive
+                      ? "text-primary"
+                      : "text-gray-700 hover:text-primary"
                     }`
                   }
                 >
