@@ -1,14 +1,20 @@
-const express = require("express");
-const cors = require("cors");
-const { spawn } = require("child_process");
-const fs = require("fs").promises;
-const path = require("path");
+import express from "express";
+import cors from "cors";
+import { spawn } from "child_process";
+import { promises as fs } from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Dapatkan path absolut ke Python di lingkungan virtual
-const pythonPath = path.join(__dirname, "venv", "Scripts", "python.exe");
+// Use system Python in production (Railway), local venv in development
+const pythonPath = process.env.NODE_ENV === "production"
+  ? "python3"
+  : path.join(__dirname, "venv", "Scripts", "python.exe");
 
 // Aktifkan CORS dan parsing JSON
 app.use(cors({

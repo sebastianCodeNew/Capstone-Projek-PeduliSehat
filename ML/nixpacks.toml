@@ -1,0 +1,14 @@
+# Railway Configuration for ML Server
+# This tells Railway to install both Node.js and Python
+
+[phases.setup]
+nixPkgs = ["nodejs", "python310", "python310Packages.pip"]
+
+[phases.install]
+cmds = [
+  "npm install",
+  "pip install -r requirements.txt"
+]
+
+[start]
+cmd = "node server.js"
