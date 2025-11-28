@@ -2,13 +2,14 @@
 # This tells Railway to install both Node.js and Python
 
 [phases.setup]
-nixPkgs = ["nodejs", "python310", "python310Packages.pip"]
+nixPkgs = ["nodejs_18", "python310", "python310Packages.pip"]
 
 [phases.install]
 cmds = [
-  "npm install",
-  "pip install -r requirements.txt"
+  "npm ci",
+  "pip install --no-cache-dir -r requirements.txt"
 ]
 
 [start]
-cmd = "node server.js"
+cmd = "npm start"
+
